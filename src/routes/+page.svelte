@@ -9,7 +9,7 @@
 	}
 </script>
 
-<main class="flex flex-col h-screen">
+<main class="flex flex-col min-h-screen md:h-screen">
 	<Header />
 
 	<div class="flex flex-grow justify-center bg-gradient-to-b from-cee5fd to-white">
