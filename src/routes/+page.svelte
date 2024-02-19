@@ -34,7 +34,7 @@
 
 	<!-- Input field and Send button at the bottom -->
 
-	<div class="p-4 bg-white flex justify-center items-center">
+	<div class="p-2 bg-white flex justify-center items-center md:p-4">
 		<div class="relative w-full md:w-1/2">
 			<textarea
 				on:input={autoResize}
