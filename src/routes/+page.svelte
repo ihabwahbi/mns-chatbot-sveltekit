@@ -9,7 +9,7 @@
 	}
 </script>
 
-<main class="flex flex-col h-[100vh]">
+<main class="flex flex-col h-[calc(100dvh)]">
 	<Header />
 
 	<div class="flex flex-grow justify-center bg-gradient-to-b from-cee5fd to-white">
@@ -34,8 +34,8 @@
 
 	<!-- Input field and Send button at the bottom -->
 
-	<div class="p-4 bg-white flex justify-center items-center text-field-container">
-		<div class="relative w-full md:w-1/2 text-field-container">
+	<div class="p-4 bg-white flex justify-center items-center">
+		<div class="relative w-full md:w-1/2">
 			<textarea
 				on:input={autoResize}
 				class="appearance-none w-full bg-gray-100 text-gray-700 border-2 border-gray-300 rounded-3xl py-3 pl-4 pr-10 focus:outline-none focus:bg-white focus:border-slbBlues resize-none"
@@ -63,9 +63,3 @@
 		</div>
 	</div>
 </main>
-
-<style>
-	.text-field-container {
-		padding-bottom: env(safe-area-inset-bottom, 20px);
-	}
-</style>
