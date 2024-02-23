@@ -129,7 +129,7 @@
 		<div class="flex relative w-full md:w-1/2">
 			<textarea
 				on:input={autoResize}
-				class="relative h-full w-full bg-gray-100 text-gray-700 border-2 border-gray-300 rounded-3xl pl-4 pr-10 focus:outline-none focus:bg-white focus:border-slbBlues py-2 md:py-3"
+				class="relative h-full w-full bg-gray-100 text-gray-700 border-2 border-gray-300 rounded-3xl pl-4 pr-10 focus:outline-none focus:bg-white focus:border-slbBlues resize-none py-2 md:py-3"
 				rows="1"
 				placeholder="Ask me anything..."
 				style="overflow:hidden; max-height: 500px;"
