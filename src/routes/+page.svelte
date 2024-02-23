@@ -1,9 +1,10 @@
 <script>
 	import Header from './Header.svelte';
 	import { onMount } from 'svelte';
+	import { tick } from 'svelte';
 	// You might import a Chat component here if you have one,
 	// or directly implement chat logic in this script block.
-	let show = false;
+
 	function autoResize(event) {
 		event.target.style.height = 'auto'; // Reset height to ensure accurate measurement
 		event.target.style.height = event.target.scrollHeight + 'px'; // Set new height based on scroll height
@@ -16,6 +17,7 @@
 	let isLoading = false;
 
 	async function handleSubmit() {
+		event.target.style.height = 'auto';
 		isLoading = true;
 		submittedMessage = userMessage;
 		userMessage = '';
@@ -27,6 +29,8 @@
 		// Add the user's message to the messages array
 		startChat = true;
 		messages = [...messages, { sender: 'You', content: submittedMessage }];
+		await tick(); // Wait for the DOM to update
+		scrollToBottom(); // Scroll to the bottom of the chat
 		// Clear the input field after submitting
 		// Specify the API URL
 		const apiUrl =
@@ -42,18 +46,25 @@
 			});
 
 			if (!response.ok) {
-				const errorDetails = await response.json(); // Read the response body
-				console.error('API call failed:', errorDetails.message);
-				// Display the error to the user here
+				console.error('API call failed:', response.statusText);
+				// Optionally, read and log the response text for more details
+				const errorText = await response.text();
+				console.error('Error details:', errorText);
 				return; // Exit early since the API call failed
 			}
 
-			const data = await response.json(); // This should only be called if the response was OK and not previously read
-			// Continue processing the successful response
-
-			// Assuming the API response has the format { sender: 'AI Assistant', content: 'Response message' }
+			let data;
+			if (response.ok) {
+				data = await response.json(); // Parse once
+				messages = [...messages, { sender: 'AI Assistant', content: data.message }];
+				await tick(); // Wait for the DOM to update
+				scrollToBottom(); // Scroll to the bottom of the chat
+			} else {
+				// Handle non-OK responses without trying to parse JSON
+				console.error('API call failed:', response.statusText);
+				// Read response as text or handle accordingly
+			}
 			// Update the messages array with the response
-			messages = [...messages, { sender: 'AI Assistant', content: data.message }];
 		} catch (error) {
 			console.error(error);
 			// Update the UI to show the error message to the user
@@ -67,12 +78,16 @@
 			handleSubmit();
 		}
 	}
+	function scrollToBottom() {
+		const chatContainer = document.querySelector('.flex.flex-grow.overflow-auto'); // Adjust the selector as needed
+		chatContainer.scrollTop = chatContainer.scrollHeight;
+	}
 </script>
 
 <main class="flex flex-col h-[calc(100dvh)]">
 	<Header />
 
-	<div class="flex flex-grow justify-center bg-gradient-to-b from-cee5fd to-white">
+	<div class="flex flex-grow overflow-auto justify-center bg-gradient-to-b from-cee5fd to-white">
 		{#if !startChat}
 			<div class="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
 				<h1 class="text-5xl md:text-6xl mb-4 text-center">
@@ -85,10 +100,25 @@
 			</div>
 		{/if}
 		{#if startChat}
-			<div class="w-full md:w-1/2 overflow-auto p-4">
+			<div class="w-full md:w-1/2 p-4">
 				{#each messages as message}
 					<div><strong>{message.sender}:</strong> {message.content}</div>
 				{/each}
+				{#if isLoading}
+					<div><strong>AI Assistant:</strong></div>
+					<div class="animate-pulse flex space-x-4">
+						<div class="flex-1 space-y-6 py-1">
+							<div class="h-2 bg-slate-700 rounded"></div>
+							<div class="space-y-3">
+								<div class="grid grid-cols-3 gap-4">
+									<div class="h-2 bg-slate-700 rounded col-span-2"></div>
+									<div class="h-2 bg-slate-700 rounded col-span-1"></div>
+								</div>
+								<div class="h-2 bg-slate-700 rounded"></div>
+							</div>
+						</div>
+					</div>
+				{/if}
 			</div>
 		{/if}
 	</div>
