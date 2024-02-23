@@ -126,10 +126,10 @@
 	<!-- Input field and Send button at the bottom -->
 
 	<div class=" bg-white flex justify-center items-center p-2 md:p-4">
-		<div class="relative w-full md:w-1/2">
+		<div class="flex relative w-full md:w-1/2">
 			<textarea
 				on:input={autoResize}
-				class="appearance-none w-full bg-gray-100 text-gray-700 border-2 border-gray-300 rounded-3xl pl-4 pr-10 focus:outline-none focus:bg-white focus:border-slbBlues resize-none py-2 md:py-3"
+				class="relative h-full w-full bg-gray-100 text-gray-700 border-2 border-gray-300 rounded-3xl pl-4 pr-10 focus:outline-none focus:bg-white focus:border-slbBlues py-2 md:py-3"
 				rows="1"
 				placeholder="Ask me anything..."
 				style="overflow:hidden; max-height: 500px;"
@@ -146,7 +146,7 @@
 				{#if isLoading}
 					<svg
 						aria-hidden="true"
-						class="w-8 h-8 text-gray-200 animate-spin fill-blue-600"
+						class="w-6 h-6 text-gray-200 animate-spin fill-blue-600"
 						viewBox="0 0 100 101"
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
