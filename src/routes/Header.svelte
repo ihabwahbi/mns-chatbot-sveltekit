@@ -12,7 +12,7 @@
 				</div>
 
 				<!-- primary nav -->
-				<div class="hidden md:flex items-center space-x-1 font-sans">
+				<div class="hidden md:flex items-center space-x-1">
 					<a
 						href="/"
 						class="py-4 px-3 text-white hover:text-gray-200 no-underline hover:no-underline">Home</a
